@@ -1,11 +1,11 @@
 /* Global Variables */
-let baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
-let apiKey = '&appid=5dbbf38217250549f999fb6ea90767fe';
+const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
+const apiKey = '&appid=5dbbf38217250549f999fb6ea90767fe';
 const celsiusSign = '&#176';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
+let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 
 // Convert Kelvins to Celsius
 function kelvinsToCelsius(k){
@@ -26,10 +26,10 @@ function generateInfo(e) {
                 temp: data.main.temp,
                 content: feelings
             })
+            .then(
+                updateUI('/all')
+            );
         })
-        .then(
-            updateUI('/all')
-        );
 }
 
 // Make GET request to OpenWeatherMap API
@@ -69,9 +69,9 @@ const updateUI = async (url = '') => {
     const request = await fetch(url);
         try{
             const allData =  await request.json();
-            document.getElementById("date").innerHTML = allData[0].date;
-            document.getElementById("temp").innerHTML = kelvinsToCelsius(allData[0].temp) + celsiusSign;
-            document.getElementById("content").innerHTML = allData[0].content;
+            document.getElementById("date").innerHTML = allData.date;
+            document.getElementById("temp").innerHTML = kelvinsToCelsius(allData.temp) + celsiusSign;
+            document.getElementById("content").innerHTML = allData.content;
         } catch (error){
             console.log(error);
         }
