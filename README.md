@@ -5,6 +5,7 @@ This project creat an asynchronous web app that uses Web API and user data to dy
 ## Installation
 
 This project requires node.js to run which can be downloaded at [here](https://nodejs.org/en/)
+
 Also, following npm packages need to be installed as well:
 
 ```bash
