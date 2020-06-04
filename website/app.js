@@ -1,10 +1,16 @@
 /* Global Variables */
 let baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 let apiKey = '&appid=5dbbf38217250549f999fb6ea90767fe';
+const celsiusSign = '&#176';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
+
+// Convert Kelvins to Celsius
+function kelvinsToCelsius(k){
+    return (k - 273.15).toFixed(2);
+}
 
 // Add event listener to generate button
 document.getElementById("generate").addEventListener('click', generateInfo);
@@ -16,8 +22,8 @@ function generateInfo(e) {
         .then(function (data) {
             console.log(data);
             postData('/journalInfo', {
-                temp: data.main.temp,
                 date: newDate,
+                temp: data.main.temp,
                 content: feelings
             })
         })
@@ -64,7 +70,7 @@ const updateUI = async (url = '') => {
         try{
             const allData =  await request.json();
             document.getElementById("date").innerHTML = allData[0].date;
-            document.getElementById("temp").innerHTML = allData[0].temp;
+            document.getElementById("temp").innerHTML = kelvinsToCelsius(allData[0].temp) + celsiusSign;
             document.getElementById("content").innerHTML = allData[0].content;
         } catch (error){
             console.log(error);
